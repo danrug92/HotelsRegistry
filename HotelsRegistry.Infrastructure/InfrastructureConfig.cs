@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HotelsRegistry.Domain.AbstractRepository;
+using HotelsRegistry.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelsRegistry.Infrastructure
 {
@@ -17,6 +14,12 @@ namespace HotelsRegistry.Infrastructure
             {
                 cfg.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped<IAccommodationRepository, AccommodationRepository>();
+            services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IRoomHierarchyRepository, RoomHierarchyRepository>();
+            services.AddScoped<IPricingRepository, PricingRepository>();
+
         }
     }
 }
