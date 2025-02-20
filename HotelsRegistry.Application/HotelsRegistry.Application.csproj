@@ -6,4 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Feature\Pricings\" />
+    <Folder Include="Feature\RoomHierarchy\" />
+    <Folder Include="Feature\Rooms\" />
+    <Folder Include="Feature\RoomTypes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HotelsRegistry.Domain\HotelsRegistry.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
