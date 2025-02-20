@@ -15,7 +15,6 @@ namespace HotelsRegistry.Domain.Entities
         public string? Description { get; set; } = string.Empty;
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdateAt { get; set; } = DateTime.UtcNow;
-
         public virtual Accommodation Accommmodation { get; set; }  
         public virtual ICollection<Room>? Rooms { get; set; }  
         public virtual ICollection<RoomHierarchy>? RoomHierarchies { get; set; }  

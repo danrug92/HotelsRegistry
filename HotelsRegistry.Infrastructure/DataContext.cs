@@ -21,14 +21,19 @@ namespace HotelsRegistry.Infrastructure
         {
             modelBuilder.Entity<RoomHierarchy>()
                 .HasOne(rh => rh.RoomTypeBase)
-                .WithMany() 
-                .HasForeignKey("RoomTypeBaseId") 
+                .WithMany()
+                .HasForeignKey("RoomTypeBaseId")
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<RoomHierarchy>()
                 .HasOne(rh => rh.RoomTypeRelated)
-                .WithMany() 
-                .HasForeignKey("RoomTypeRelatedId") 
-                .OnDelete(DeleteBehavior.Restrict); 
+                .WithMany()
+                .HasForeignKey("RoomTypeRelatedId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Accommodation>()
+                .Property(a => a.Type)
+                .HasConversion<string>()
+                .HasMaxLength(20);
         }
     }
 }
