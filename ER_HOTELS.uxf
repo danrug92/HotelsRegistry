@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>77</x><y>462</y><w>133</w><h>140</h></coordinates><panel_attributes>Accommodation
+<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>0</x><y>315</y><w>133</w><h>140</h></coordinates><panel_attributes>Accommodation
 --
 Id [Guid] - Pk
 Name [Nvarchar(100)]
@@ -9,26 +9,26 @@ Coordinate [Nvarchar(MAX)]
 Phone [Nvarchar(15)[
 Email [Nvarchar(MAX)]
 CreateAt [Datetime]
-UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>294</x><y>462</y><w>133</w><h>91</h></coordinates><panel_attributes>RoomType
+UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>217</x><y>315</y><w>133</w><h>91</h></coordinates><panel_attributes>RoomType
 --
 Id [Guid] - Pk
 AccommodationId [Guid] - Fk
 Name [Nvarchar(100)]
 Description[Text]
 CreateAt [Datetime]
-UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>511</x><y>455</y><w>133</w><h>140</h></coordinates><panel_attributes>Room
+UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>434</x><y>308</y><w>133</w><h>140</h></coordinates><panel_attributes>Room
 --
 Id [Guid] - Pk
 NameRoom [Nvarchar(100)]
 Description[Text]
 RoomTypeId[Guid] - Fk
-RoomNumber[Nvarchar(100)]
+RoomNumber[int]
 Capacity [int]
 Loor [int]
 IsAvailable [bit]
 MediaRoomId [text] - Fk FIrebaseStorage
 CreateAt [Datetime]
-UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>294</x><y>630</y><w>133</w><h>140</h></coordinates><panel_attributes>Pricing
+UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>217</x><y>483</y><w>133</w><h>140</h></coordinates><panel_attributes>Pricing
 --
 Id [Guid] - Pk
 RoomTypeId [Guid] - Fk
@@ -37,25 +37,25 @@ StartDate [Date]
 EndDate [Date]
 IsSeasonal [bit]
 CreateAt [Datetime]
-UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>294</x><y>287</y><w>133</w><h>140</h></coordinates><panel_attributes>RoomPriceHierarchy 
+UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>217</x><y>140</y><w>133</w><h>140</h></coordinates><panel_attributes>RoomHierarchy 
 --
 Id [Guid] - Pk
-RoomTypeIdBase [Guid] - Fk
-RoomTypeIdRelated [Guid] - Fk 
+RoomTypeBaseId [Guid] - Fk
+RoomTypeRelatedId [Guid] - Fk 
 PercentageIncrease [Decimal(7,2)]
 CreateAt [Datetime]
-UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>203</x><y>483</y><w>105</w><h>28</h></coordinates><panel_attributes>lt=-
+UpdateAt [Datetime]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>126</x><y>336</y><w>105</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=1
-m2=n</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>203</x><y>483</y><w>105</w><h>28</h></coordinates><panel_attributes>lt=-
+m2=n</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>126</x><y>336</y><w>105</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=1
-m2=n</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>476</y><w>105</w><h>28</h></coordinates><panel_attributes>lt=-
+m2=n</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>343</x><y>329</y><w>105</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=1
-m2=n</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>476</y><w>70</w><h>210</h></coordinates><panel_attributes>lt=-
+m2=n</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>343</x><y>329</y><w>70</w><h>210</h></coordinates><panel_attributes>lt=-
 m1=1
-m2=n</panel_attributes><additional_attributes>10;10;80;10;80;270;10;270</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>308</y><w>70</w><h>196</h></coordinates><panel_attributes>lt=-
+m2=n</panel_attributes><additional_attributes>10;10;80;10;80;270;10;270</additional_attributes></element><element><id>Relation</id><coordinates><x>343</x><y>161</y><w>70</w><h>196</h></coordinates><panel_attributes>lt=-
 m1=1
-m2=n</panel_attributes><additional_attributes>10;250;80;250;80;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>322</y><w>70</w><h>182</h></coordinates><panel_attributes>lt=-
+m2=n</panel_attributes><additional_attributes>10;250;80;250;80;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>343</x><y>175</y><w>70</w><h>182</h></coordinates><panel_attributes>lt=-
 m1=1
-m2=n</panel_attributes><additional_attributes>10;230;80;230;80;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>406</x><y>238</y><w>98</w><h>49</h></coordinates><panel_attributes>Note..
+m2=n</panel_attributes><additional_attributes>10;230;80;230;80;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>329</x><y>91</y><w>98</w><h>49</h></coordinates><panel_attributes>Note..
 bg=blue
 Attenzione alle date del pricing, Se il tipo di data è stato assegnato una data di inizio e di fine, non deve essere possibile assegnare date in un range già esistente. Quresto si deve inserire come logica nel BE . provare a inserire anche un controlle nel DB, come una store procedure o un trigger? </panel_attributes><additional_attributes></additional_attributes></element></diagram>
