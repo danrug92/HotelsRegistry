@@ -12,7 +12,6 @@ namespace HotelsRegistry.Application.Feature.Accommodations.Mappers
             CreateMap<Accommodation, AccommodationDto>().ReverseMap();
             CreateMap<Accommodation, CreateAccommodationCmd>().ReverseMap();
             CreateMap<Accommodation, UpdateAccommodationCmd>().ReverseMap();
-            CreateMap<IEnumerable<Accommodation>, IEnumerable<AccommodationDto>>().ReverseMap();
         }
     }
 }
