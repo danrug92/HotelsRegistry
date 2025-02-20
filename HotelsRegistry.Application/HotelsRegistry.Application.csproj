@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Feature\Pricings\" />
     <Folder Include="Feature\RoomHierarchy\" />
     <Folder Include="Feature\Rooms\" />
     <Folder Include="Feature\RoomTypes\" />
