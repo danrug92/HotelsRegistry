@@ -1,15 +1,27 @@
+using HotelsRegistry.API.Endpoints;
+using HotelsRegistry.Application;
 using HotelsRegistry.Infrastructure;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//Add Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
 // Add services to the container.
 InfrastructureConfig.AddInfrastructureService(builder.Services, builder.Configuration);
+ApplicationConfig.AddApplicationService(builder.Services);
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 
+app.MapAccommodationsEndpoints();
+app.MapPricingsEndpoints();
 
 app.Run();
 

@@ -7,5 +7,10 @@ namespace HotelsRegistry.Application.Feature.Accommodations.Queries
     public class GetAccommodationByIdQuery : IRequest<AccommodationDto>
     {
         public Guid Id { get; set; }
+
+        public GetAccommodationByIdQuery(Guid id)
+        {
+            Id = id;
+        }
     }
 }
