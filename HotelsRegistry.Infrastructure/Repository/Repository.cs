@@ -58,5 +58,9 @@ namespace HotelsRegistry.Infrastructure.Repository
                 return false;
             }
         }
+        public async Task<bool> ExistsAsync(Guid id)
+        {
+            return await this.context.Set<T>().AnyAsync(e => e.Id == id);
+        }
     }
 }

@@ -19,7 +19,6 @@ namespace HotelsRegistry.Infrastructure
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IRoomHierarchyRepository, RoomHierarchyRepository>();
             services.AddScoped<IPricingRepository, PricingRepository>();
-
         }
     }
 }
