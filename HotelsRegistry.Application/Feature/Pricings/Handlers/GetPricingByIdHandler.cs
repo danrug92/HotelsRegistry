@@ -8,19 +8,19 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 {
     public class GetPricingByIdHandler : IRequestHandler<GetPricingByIdQuery,PricingDto>
     {
-        private readonly IPricingRepository _accomodationRepo;
+        private readonly IPricingRepository _pricingRepo;
 
-        public GetPricingByIdHandler(IPricingRepository PricingRepo)
+        public GetPricingByIdHandler(IPricingRepository pricingRepo)
         {
-            _accomodationRepo = PricingRepo;
+            _pricingRepo = pricingRepo;
         }
 
         public async Task<PricingDto> Handle(GetPricingByIdQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var Pricing = _accomodationRepo.GetByIdAsync(query.Id);
-                var response = PricingMapper.Mapper.Map<PricingDto>(Pricing);
+                var pricing = _pricingRepo.GetByIdAsync(query.Id);
+                var response = PricingMapper.Mapper.Map<PricingDto>(pricing);
                 return response;
             }
             catch (Exception ex)

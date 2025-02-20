@@ -10,21 +10,21 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 {
     public class DeletePricingHandler : IRequestHandler<DeletePricingCmd,bool>
     {
-        private readonly IPricingRepository _accomodationRepo;
+        private readonly IPricingRepository _pricingRepo;
 
-        public DeletePricingHandler(IPricingRepository PricingRepo)
+        public DeletePricingHandler(IPricingRepository pricingRepo)
         {
-            _accomodationRepo = PricingRepo;
+            _pricingRepo = pricingRepo;
         }
 
         public async Task<bool> Handle(DeletePricingCmd cmd, CancellationToken cancellationToken)
         {
             try
             {
-                var exits = await _accomodationRepo.ExistsAsync(cmd.Id);
+                var exits = await _pricingRepo.ExistsAsync(cmd.Id);
                 if (!exits)
                 {
-                    throw new Exception("This Pricing does not exist");
+                    throw new Exception("This pricing does not exist");
                 }
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
             }
             try
             {
-                var response = await _accomodationRepo.DeleteAsync(cmd.Id);
+                var response = await _pricingRepo.DeleteAsync(cmd.Id);
                 return response;
             }
             catch (Exception ex)

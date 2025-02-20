@@ -8,11 +8,11 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 {
     public class GetAllPricingHandler : IRequestHandler<GetAllPricingQuery,IEnumerable<PricingDto>>
     {
-        private readonly IPricingRepository _accomodationRepo;
+        private readonly IPricingRepository _pricingRepo;
 
-        public GetAllPricingHandler(IPricingRepository PricingRepo)
+        public GetAllPricingHandler(IPricingRepository pricingRepo)
         {
-            _accomodationRepo = PricingRepo;
+            _pricingRepo = pricingRepo;
         }
 
         public async Task<IEnumerable<PricingDto>> Handle(GetAllPricingQuery query, CancellationToken cancellationToken)
@@ -20,8 +20,8 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 
             try
             {
-                var PricingsList = _accomodationRepo.GetAll().ToList();
-                var responseList = PricingMapper.Mapper.Map<IEnumerable<PricingDto>>(PricingsList);
+                var pricingsList = _pricingRepo.GetAll().ToList();
+                var responseList = PricingMapper.Mapper.Map<IEnumerable<PricingDto>>(pricingsList);
                 return responseList;
             }
             catch (Exception ex)

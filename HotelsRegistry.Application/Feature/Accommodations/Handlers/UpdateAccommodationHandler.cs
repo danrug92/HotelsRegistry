@@ -25,21 +25,17 @@ namespace HotelsRegistry.Application.Feature.Accommodations.Handlers
                 throw new ApplicationException("There is an issue with mapping while creating new accommodation");
 
             }
-            try
-            {
-                var exits = await _accomodationRepo.ExistsAsync(accommodation.Id);
-                if(!exits)
+
+                var accommodationExist = await _accomodationRepo.GetByIdAsync(accommodation.Id);
+                if(accommodationExist == null)
                 {
                     throw new Exception("This accommodation does not exist");
                 }
-            }
-            catch(Exception ex)
-            {
-                throw new ApplicationException("Problem with context: " + ex.Message, ex);
+            
 
-            }
             try
             {
+                accommodation.CreateAt = accommodationExist.CreateAt;
                 accommodation.UpdateAt = DateTime.UtcNow;
                 await _accomodationRepo.UpdateAsync(accommodation);
                 await _accomodationRepo.SaveAllAsync();

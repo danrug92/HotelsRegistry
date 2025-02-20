@@ -8,32 +8,35 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 {
     public class CreatePricingHandler : IRequestHandler<CreatePricingCmd,bool>
     {
-        private readonly IPricingRepository _accomodationRepo;
+        private readonly IPricingRepository _pricingRepo;
 
-        public CreatePricingHandler(IPricingRepository PricingRepo)
+        public CreatePricingHandler(IPricingRepository pricingRepo)
         {
-            _accomodationRepo = PricingRepo;
+            _pricingRepo = pricingRepo;
         }
 
         public async Task<bool> Handle(CreatePricingCmd cmd, CancellationToken cancellationToken)
         {
-            var Pricing = PricingMapper.Mapper.Map<Pricing>(cmd);
+            var pricing = PricingMapper.Mapper.Map<Pricing>(cmd);
 
-            if (Pricing is null)
+            if (pricing is null)
             {
-                throw new ApplicationException("There is an issue with mapping while creating new Pricing");
+                throw new ApplicationException("There is an issue with mapping while creating new pricing");
 
             }
-
+            if (pricing.EndDate < pricing.StartDate)
+            {
+                throw new Exception("End date cannot be earlier than start date.");
+            }
             try
             {
-                await _accomodationRepo.CreateAsync(Pricing);
-                await _accomodationRepo.SaveAllAsync();
+                await _pricingRepo.CreateAsync(pricing);
+                await _pricingRepo.SaveAllAsync();
                 return true;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Problem with Pricing creation: " + ex.Message, ex);
+                throw new ApplicationException("Problem with pricing creation: " + ex.Message, ex);
             }
         }
     }

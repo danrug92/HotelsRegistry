@@ -3,45 +3,47 @@ using HotelsRegistry.Application.Feature.Pricings.Mappers;
 using HotelsRegistry.Domain.AbstractRepository;
 using HotelsRegistry.Domain.Entities;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 {
     public class UpdatePricingHandler : IRequestHandler<UpdatePricingCmd,bool>
     {
-        private readonly IPricingRepository _accomodationRepo;
+        private readonly IPricingRepository _pricingRepo;
 
-        public UpdatePricingHandler(IPricingRepository PricingRepo)
+        public UpdatePricingHandler(IPricingRepository pricingRepo)
         {
-            _accomodationRepo = PricingRepo;
+            _pricingRepo = pricingRepo;
         }
 
         public async Task<bool> Handle(UpdatePricingCmd cmd, CancellationToken cancellationToken)
         {
-            var Pricing = PricingMapper.Mapper.Map<Pricing>(cmd);
+            var pricing = PricingMapper.Mapper.Map<Pricing>(cmd);
 
 
-            if (Pricing is null)
+            if (pricing is null)
             {
                 throw new ApplicationException("There is an issue with mapping while creating new Pricing");
 
             }
-            try
-            {
-                var exits = await _accomodationRepo.ExistsAsync(Pricing.Id);
-                if(!exits)
+           
+                var pricingsExist = await _pricingRepo.GetByIdAsync(pricing.Id);
+                if(pricingsExist == null)
                 {
-                    throw new Exception("This Pricing does not exist");
+                    throw new Exception("This pricing does not exist");
                 }
-            }
-            catch(Exception ex)
+            
+           
+            if (pricing.EndDate < pricing.StartDate)
             {
-                throw new ApplicationException("Problem with context: " + ex.Message, ex);
-
+                throw new Exception("End date cannot be earlier than start date.");
             }
             try
             {
-                await _accomodationRepo.UpdateAsync(Pricing);
-                await _accomodationRepo.SaveAllAsync();
+                pricing.CreateAt = pricingsExist.CreateAt;
+                pricing.UpdateAt = DateTime.UtcNow;
+                await _pricingRepo.UpdateAsync(pricing);
+                await _pricingRepo.SaveAllAsync();
                 return true;
             }
             catch (Exception ex)
