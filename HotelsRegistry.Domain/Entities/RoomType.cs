@@ -13,9 +13,10 @@ namespace HotelsRegistry.Domain.Entities
         [StringLength(256, ErrorMessage = "Name cannot be longer than 256 characters.")]
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
+        public int HierarchyLevel { get; set; } = 1;
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdateAt { get; set; } = DateTime.UtcNow;
-        public virtual Accommodation Accommmodation { get; set; }  
+        public virtual Accommodation? Accommmodation { get; set; }  
         public virtual ICollection<Room>? Rooms { get; set; }  
         public virtual ICollection<RoomHierarchy>? RoomHierarchies { get; set; }  
         public virtual ICollection<Pricing>? Pricings { get; set; }  

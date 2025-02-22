@@ -18,27 +18,32 @@ namespace HotelsRegistry.Application.Feature.RoomHierarchys.Handlers
 
         public async Task<bool> Handle(CreateRoomHierarchyCmd cmd, CancellationToken cancellationToken)
         {
+            var baseRoomType = await _roomTypeRepo.GetByIdAsync(cmd.RoomTypeBaseId);
+            var relatedRoomType = await _roomTypeRepo.GetByIdAsync(cmd.RoomTypeRelatedId);
+
+            if (baseRoomType == null || relatedRoomType == null)
+            {
+                throw new ApplicationException("One or both Room Types do not exist.");
+            }
+            if(baseRoomType.AccommodationId != relatedRoomType.AccommodationId)
+            {
+                throw new ApplicationException("the two types of rooms chosen do not belong to the same structure");
+            }
+            var lowerRoom = baseRoomType.HierarchyLevel <= relatedRoomType.HierarchyLevel ? baseRoomType : relatedRoomType;
+            var higherRoom = baseRoomType.HierarchyLevel > relatedRoomType.HierarchyLevel ? baseRoomType : relatedRoomType;
             var roomHierarchy = RoomHierarchyMapper.Mapper.Map<RoomHierarchy>(cmd);
 
             if (roomHierarchy is null)
             {
-                throw new ApplicationException("There is an issue with mapping while creating new roomHierarchy");
+                throw new ApplicationException("There is an issue with mapping while creating new hierarchy");
 
             }
-            try
-            {
-                if (!await _roomTypeRepo.ExistsAsync(cmd.RoomTypeBaseId) || !await _roomTypeRepo.ExistsAsync(cmd.RoomTypeRelatedId))
-                {
-                    throw new ApplicationException("Room type don't exist");
-                }
-            }
-            catch
-            {
-                throw new ApplicationException("Problem with data context");
 
-            }
+            
             try
             {
+                roomHierarchy.RoomTypeBaseId = lowerRoom.Id;
+                roomHierarchy.RoomTypeRelatedId = higherRoom.Id;
                 await _roomHierarchyRepo.CreateAsync(roomHierarchy);
                 await _roomHierarchyRepo.SaveAllAsync();
                 return true;
