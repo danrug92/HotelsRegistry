@@ -44,7 +44,7 @@ namespace HotelsRegistry.Domain.Entities
         [Range(1, 5, ErrorMessage = "Stars must be between 1 and 5.")]
         public int Stars { get; set; } = 1;
         [Required(ErrorMessage = "Hotel Type is required.")]
-        public AccommodationType Type { get; set; }
+        public string Type { get; set; } = string.Empty;
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdateAt { get; set; } = DateTime.UtcNow;
         public virtual ICollection<RoomType>? RoomTypes { get; set; }

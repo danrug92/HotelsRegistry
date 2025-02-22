@@ -20,7 +20,7 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 
             try
             {
-                var pricingsList = _pricingRepo.GetAll().ToList();
+                var pricingsList = _pricingRepo.GetAllWithRoomTypeData().ToList();
                 var responseList = PricingMapper.Mapper.Map<IEnumerable<PricingDto>>(pricingsList);
                 return responseList;
             }

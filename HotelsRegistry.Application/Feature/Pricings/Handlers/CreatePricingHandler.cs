@@ -9,10 +9,11 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
     public class CreatePricingHandler : IRequestHandler<CreatePricingCmd,bool>
     {
         private readonly IPricingRepository _pricingRepo;
-
-        public CreatePricingHandler(IPricingRepository pricingRepo)
+        private readonly IRoomTypeRepository _roomTypeRepo;
+        public CreatePricingHandler(IPricingRepository pricingRepo, IRoomTypeRepository roomTypeRepo)
         {
             _pricingRepo = pricingRepo;
+            _roomTypeRepo = roomTypeRepo;
         }
 
         public async Task<bool> Handle(CreatePricingCmd cmd, CancellationToken cancellationToken)
@@ -27,6 +28,18 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
             if (pricing.EndDate < pricing.StartDate)
             {
                 throw new Exception("End date cannot be earlier than start date.");
+            }
+            try
+            {
+                if (!await _roomTypeRepo.ExistsAsync(cmd.RoomTypeId))
+                {
+                    throw new ApplicationException("Room type don't exist");
+                }
+            }
+            catch
+            {
+                throw new ApplicationException("Problem with data context");
+
             }
             try
             {

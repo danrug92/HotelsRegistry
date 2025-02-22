@@ -3,7 +3,6 @@ using HotelsRegistry.Application.Feature.Pricings.Mappers;
 using HotelsRegistry.Domain.AbstractRepository;
 using HotelsRegistry.Domain.Entities;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 {
@@ -27,16 +26,19 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
 
             }
            
-                var pricingsExist = await _pricingRepo.GetByIdAsync(pricing.Id);
+                var pricingsExist = await _pricingRepo.GetPricingWithRoomTypeDataAsync(pricing.Id);
                 if(pricingsExist == null)
                 {
-                    throw new Exception("This pricing does not exist");
+                    throw new ApplicationException("This pricing does not exist");
                 }
-            
+                if(pricingsExist.RoomType == null)
+                {
+                    throw new ApplicationException("This price does not have a valid room type");
+                }
            
             if (pricing.EndDate < pricing.StartDate)
             {
-                throw new Exception("End date cannot be earlier than start date.");
+                throw new ApplicationException("End date cannot be earlier than start date.");
             }
             try
             {

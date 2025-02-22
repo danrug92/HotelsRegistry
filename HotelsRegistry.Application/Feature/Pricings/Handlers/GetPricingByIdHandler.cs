@@ -19,7 +19,7 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
         {
             try
             {
-                var pricing = _pricingRepo.GetByIdAsync(query.Id);
+                var pricing = await _pricingRepo.GetPricingWithRoomTypeDataAsync(query.Id);
                 var response = PricingMapper.Mapper.Map<PricingDto>(pricing);
                 return response;
             }

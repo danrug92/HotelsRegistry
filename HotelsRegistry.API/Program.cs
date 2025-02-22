@@ -1,7 +1,6 @@
 using HotelsRegistry.API.Endpoints;
 using HotelsRegistry.Application;
 using HotelsRegistry.Infrastructure;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 //Add Cors
