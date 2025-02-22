@@ -27,7 +27,7 @@ namespace HotelsRegistry.Application.Feature.RoomTypes.Handlers
 
             }
 
-            var roomTypesExist = await _roomTypeRepo.GetByIdAsync(roomType.Id);
+            var roomTypesExist = await _roomTypeRepo.GetRoomTypeWithAccommodationDataAsync(roomType.Id);
             if (roomTypesExist == null)
             {
                 throw new Exception("This roomType does not exist");
