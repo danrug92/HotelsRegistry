@@ -21,7 +21,9 @@ app.UseHttpsRedirection();
 
 app.MapAccommodationsEndpoints();
 app.MapPricingsEndpoints();
-
+app.MapRoomHierarchysEndpoints();
+app.MapRoomTypesEndpoints();
+app.MapRoomsEndpoints();
 app.Run();
 
 

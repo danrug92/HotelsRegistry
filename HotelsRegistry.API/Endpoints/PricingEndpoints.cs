@@ -1,5 +1,5 @@
-﻿using HotelsRegistry.Application.Feature.Pricings.Commands;
-using HotelsRegistry.Application.Feature.Pricings.Dto;
+﻿using Common.Helper;
+using HotelsRegistry.Application.Feature.Pricings.Commands;
 using HotelsRegistry.Application.Feature.Pricings.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -21,39 +21,65 @@ namespace HotelsRegistry.API.Endpoints
 
         }
 
-        private static async Task<Results<Ok<IEnumerable<PricingDto>>, NotFound>> GetAllPricings([FromServices] IMediator mediator)
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, NotFound>> GetAllPricings([FromServices] IMediator mediator)
         {
-            var pricings = await mediator.Send(new GetAllPricingQuery());
-            return pricings.Any() ? TypedResults.Ok(pricings) : TypedResults.NotFound();
+            var pricings = 
+            await HandleRequestHelper.HandleRequest(async () =>
+            {
+                var response = await mediator.Send(new GetAllPricingQuery());
+                return (true, response);
+            });
+            return TypedResults.Ok(pricings);
         }
 
-        private static async Task<Results<Created<bool>, BadRequest<string>>> CreatePricing(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, BadRequest<string>>> CreatePricing(
             [FromBody] CreatePricingCmd cmd,
             [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(cmd);
-            return result != null ? TypedResults.Created($"/Pricings/Created", result) : TypedResults.BadRequest("Error to create pricing.");
+            var result =
+            await HandleRequestHelper.HandleRequest(async () =>
+            {
+                var response = await mediator.Send(cmd);
+                return (true, response);
+            });
+            return TypedResults.Ok(result);
         }
-        private static async Task<Results<Created<bool>, BadRequest<string>>> UpdatePricing(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, BadRequest<string>>> UpdatePricing(
            [FromBody] UpdatePricingCmd cmd,
            [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(cmd);
-            return result != null ? TypedResults.Created($"/Pricings/Updated", result) : TypedResults.BadRequest("Error to update pricing.");
+            var result =
+           await HandleRequestHelper.HandleRequest(async () =>
+           {
+               var response = await mediator.Send(cmd);
+               return (true, response);
+           });
+            return TypedResults.Ok(result);
         }
-        private static async Task<Results<Created<bool>, BadRequest<string>>> DeletePricing(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, BadRequest<string>>> DeletePricing(
           [FromBody] DeletePricingCmd cmd,
           [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(cmd);
-            return result != null ? TypedResults.Created($"/Pricings/Deleted", result) : TypedResults.BadRequest("Error to delete pricing.");
+            var result =
+           await HandleRequestHelper.HandleRequest(async () =>
+           {
+               var response = await mediator.Send(cmd);
+               return (true, response);
+           });
+            return TypedResults.Ok(result);
         }
-        private static async Task<Results<Ok<PricingDto>, NotFound>> GetPricingById(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, NotFound>> GetPricingById(
             Guid id,
             [FromServices] IMediator mediator)
         {
-            var pricing = await mediator.Send(new GetPricingByIdQuery(id));
-            return pricing != null ? TypedResults.Ok(pricing) : TypedResults.NotFound();
+            var pricing = 
+
+           await HandleRequestHelper.HandleRequest(async () =>
+           {
+               var response = await mediator.Send(new GetPricingByIdQuery(id));
+               return (true, response);
+           });
+            return TypedResults.Ok(pricing);
         }
     }
 }

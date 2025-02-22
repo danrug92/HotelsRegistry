@@ -1,6 +1,9 @@
-﻿using HotelsRegistry.Application.Feature.Accommodations.Commands;
+﻿using Azure;
+using Common.Helper;
+using HotelsRegistry.Application.Feature.Accommodations.Commands;
 using HotelsRegistry.Application.Feature.Accommodations.Dto;
 using HotelsRegistry.Application.Feature.Accommodations.Queries;
+using HotelsRegistry.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -21,39 +24,64 @@ namespace HotelsRegistry.API.Endpoints
 
         }
 
-        private static async Task<Results<Ok<IEnumerable<AccommodationDto>>, NotFound>> GetAllAccommodations([FromServices] IMediator mediator)
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, NotFound>> GetAllAccommodations([FromServices] IMediator mediator)
         {
-            var accommodations = await mediator.Send(new GetAllAccommodationQuery());
-            return accommodations.Any() ? TypedResults.Ok(accommodations) : TypedResults.NotFound();
+            var accommodations = 
+            await HandleRequestHelper.HandleRequest(async () =>
+            {
+                var response = await mediator.Send(new GetAllAccommodationQuery());
+                return (true, response);
+            });
+            return TypedResults.Ok(accommodations);
         }
 
-        private static async Task<Results<Created<bool>, BadRequest<string>>> CreateAccommodation(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, BadRequest<string>>> CreateAccommodation(
             [FromBody] CreateAccommodationCmd cmd,
             [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(cmd);
-            return result != null ? TypedResults.Created($"/Accommodations/Created", result) : TypedResults.BadRequest("Error to create accommodation.");
+            var result = 
+            await HandleRequestHelper.HandleRequest(async () =>
+            {
+                var response = await mediator.Send(cmd);
+                return (true, response);
+            });
+            return TypedResults.Ok(result);
         }
-        private static async Task<Results<Created<bool>, BadRequest<string>>> UpdateAccommodation(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, BadRequest<string>>> UpdateAccommodation(
            [FromBody] UpdateAccommodationCmd cmd,
            [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(cmd);
-            return result != null ? TypedResults.Created($"/Accommodations/Updated", result) : TypedResults.BadRequest("Error to update accommodation.");
+            var result = 
+            await HandleRequestHelper.HandleRequest(async () =>
+            {
+                var response = await mediator.Send(cmd);
+                return (true, response);
+            });
+            return TypedResults.Ok(result); ;
         }
-        private static async Task<Results<Created<bool>, BadRequest<string>>> DeleteAccommodation(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, BadRequest<string>>> DeleteAccommodation(
           [FromBody] DeleteAccommodationCmd cmd,
           [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(cmd);
-            return result != null ? TypedResults.Created($"/Accommodations/Deleted", result) : TypedResults.BadRequest("Error to delete accommodation.");
+            var result = 
+            await HandleRequestHelper.HandleRequest(async () =>
+            {
+                var response = await mediator.Send(cmd);
+                return (true, response);
+            });
+            return TypedResults.Ok(result);
         }
-        private static async Task<Results<Ok<AccommodationDto>, NotFound>> GetAccommodationById(
+        private static async Task<Results<Ok<Dictionary<string, dynamic>>, NotFound>> GetAccommodationById(
             Guid id,
             [FromServices] IMediator mediator)
         {
-            var accommodation = await mediator.Send(new GetAccommodationByIdQuery(id));
-            return accommodation != null ? TypedResults.Ok(accommodation) : TypedResults.NotFound();
+            var accommodation = 
+            await HandleRequestHelper.HandleRequest(async () =>
+            {
+                var response = await mediator.Send(new GetAccommodationByIdQuery(id));
+                return (true, response);
+            });
+            return TypedResults.Ok(accommodation);
         }
     }
 }
