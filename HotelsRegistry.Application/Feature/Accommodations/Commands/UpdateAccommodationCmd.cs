@@ -18,6 +18,6 @@ namespace HotelsRegistry.Application.Feature.Accommodations.Commands
         public string VatNumber { get; set; } = string.Empty;
         public bool IsPartOfChain { get; set; } = false;
         public int Stars { get; set; } = 1;
-        public AccommodationType Type { get; set; }
+        private string Type { get; set; } = string.Empty;
     }
 }

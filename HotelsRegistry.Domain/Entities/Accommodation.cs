@@ -43,6 +43,7 @@ namespace HotelsRegistry.Domain.Entities
         [Required(ErrorMessage = "Stars rating is required.")]
         [Range(1, 5, ErrorMessage = "Stars must be between 1 and 5.")]
         public int Stars { get; set; } = 1;
+
         [Required(ErrorMessage = "Hotel Type is required.")]
         public string Type { get; set; } = string.Empty;
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
@@ -52,13 +53,5 @@ namespace HotelsRegistry.Domain.Entities
     public partial class Accommodation
     {
         public static Accommodation FromJson(string json) => JsonConvert.DeserializeObject<Accommodation>(json, Converter.Settings) ?? new Accommodation();
-    }
-    public enum AccommodationType
-    {
-        Boutique,
-        Resort,
-        Business,
-        Budget,
-        Luxury
     }
 }

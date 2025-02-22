@@ -12,6 +12,7 @@ namespace HotelsRegistry.Domain.Entities
         public Guid RoomTypeBaseId { get; set; }
         [Required]
         public Guid RoomTypeRelatedId { get; set; }
+
         [Required(ErrorMessage = "Percentage increase is required.")]
         public decimal PercentageIncrease { get; set; } = 0;
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
