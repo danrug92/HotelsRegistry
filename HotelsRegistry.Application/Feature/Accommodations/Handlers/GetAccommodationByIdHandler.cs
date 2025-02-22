@@ -19,7 +19,7 @@ namespace HotelsRegistry.Application.Feature.Accommodations.Handlers
         {
             try
             {
-                var accommodation = _accomodationRepo.GetByIdAsync(query.Id);
+                var accommodation = await _accomodationRepo.GetByIdAsync(query.Id);
                 var response = AccommodationMapper.Mapper.Map<AccommodationDto>(accommodation);
                 return response;
             }
