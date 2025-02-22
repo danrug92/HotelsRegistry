@@ -40,6 +40,9 @@ namespace HotelsRegistry.Application.Feature.RoomTypes.Handlers
             }
             try
             {
+                roomType.Id = Guid.NewGuid();
+                roomType.CreateAt = DateTime.UtcNow;
+                roomType.UpdateAt = DateTime.UtcNow;
                 await _roomTypeRepo.CreateAsync(roomType);
                 await _roomTypeRepo.SaveAllAsync();
                 return true;

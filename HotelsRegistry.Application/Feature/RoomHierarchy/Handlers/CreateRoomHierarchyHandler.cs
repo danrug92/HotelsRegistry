@@ -42,6 +42,9 @@ namespace HotelsRegistry.Application.Feature.RoomHierarchys.Handlers
             
             try
             {
+                roomHierarchy.Id = Guid.NewGuid();
+                roomHierarchy.CreateAt = DateTime.UtcNow;
+                roomHierarchy.UpdateAt = DateTime.UtcNow;
                 roomHierarchy.RoomTypeBaseId = lowerRoom.Id;
                 roomHierarchy.RoomTypeRelatedId = higherRoom.Id;
                 await _roomHierarchyRepo.CreateAsync(roomHierarchy);

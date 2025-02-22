@@ -27,6 +27,9 @@ namespace HotelsRegistry.Application.Feature.Accommodations.Handlers
 
             try
             {
+                accommodation.Id = Guid.NewGuid();
+                accommodation.CreateAt = DateTime.UtcNow;
+                accommodation.UpdateAt = DateTime.UtcNow;
                 await _accomodationRepo.CreateAsync(accommodation);
                 await _accomodationRepo.SaveAllAsync();
                 return true;

@@ -39,6 +39,9 @@ namespace HotelsRegistry.Application.Feature.Rooms.Handlers
             }
             try
             {
+                room.Id = Guid.NewGuid();
+                room.CreateAt = DateTime.UtcNow;
+                room.UpdateAt = DateTime.UtcNow;
                 await _roomRepo.CreateAsync(room);
                 await _roomRepo.SaveAllAsync();
                 return true;

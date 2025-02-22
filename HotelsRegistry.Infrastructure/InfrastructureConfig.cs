@@ -1,5 +1,6 @@
 ﻿using HotelsRegistry.Domain.AbstractRepository;
 using HotelsRegistry.Infrastructure.Repository;
+using HotelsRegistry.Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

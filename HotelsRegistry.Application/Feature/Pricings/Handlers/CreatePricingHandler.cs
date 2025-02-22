@@ -43,6 +43,9 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
             }
             try
             {
+                pricing.Id = Guid.NewGuid();
+                pricing.CreateAt = DateTime.UtcNow;
+                pricing.UpdateAt = DateTime.UtcNow;
                 await _pricingRepo.CreateAsync(pricing);
                 await _pricingRepo.SaveAllAsync();
                 return true;
