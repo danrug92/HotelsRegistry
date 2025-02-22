@@ -9,5 +9,7 @@ namespace HotelsRegistry.Application.Feature.RoomTypes.Commands
         public Guid AccommodationId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
+        public int HierarchyLevel { get; set; } = 1;
+
     }
 }
