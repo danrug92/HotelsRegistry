@@ -19,7 +19,7 @@ namespace HotelsRegistry.Application.Feature.RoomHierarchys.Handlers
         {
             try
             {
-                var roomHierarchy = _roomHierarchyRepo.GetHierarchyWithRoomTypeDataAsync(query.Id);
+                var roomHierarchy = await _roomHierarchyRepo.GetHierarchyWithRoomTypeDataAsync(query.Id);
                 var response = RoomHierarchyMapper.Mapper.Map<RoomHierarchyDto>(roomHierarchy);
                 return response;
             }

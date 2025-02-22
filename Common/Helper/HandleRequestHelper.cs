@@ -1,10 +1,10 @@
-﻿
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Common.Helper
 {
     public static class HandleRequestHelper
     {
-        public static async Task<Dictionary<string, dynamic>> HandleRequest(Func<Task<(bool Success, object Response)>> action)
+        public static async Task<IActionResult> HandleRequest(Func<Task<(bool Success, object Response)>> action)
         {
             Dictionary<string, dynamic> modelJson = new();
 
@@ -21,7 +21,7 @@ namespace Common.Helper
                 modelJson.Add("ResponseRequest", "Error: " + error.Message);
             }
 
-            return modelJson;
+            return new OkObjectResult(modelJson);
         }
     }
 }
