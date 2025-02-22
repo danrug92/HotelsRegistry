@@ -51,6 +51,7 @@ namespace HotelsRegistry.Infrastructure.Repository
             if (gettedElement != null)
             {
                 this.context.Set<T>().Remove(gettedElement);
+                await SaveAllAsync();
                 return true;
             }
             else
