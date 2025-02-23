@@ -26,11 +26,13 @@ services:
       hotelsDb:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Server=hotelsDb;Database=HotelsRegistry;User Id=sa;Password=Hotel2025!@@2025Test
+      - ConnectionStrings__DefaultConnection=Server=hotelsDb,1433;Database=HotelsRegistry;User Id=sa;Password=Hotel2025!@@2025Test;TrustServerCertificate=True;Encrypt=False
     ports:
       - "5001:80"
     networks:
       - hotels_network
+    entrypoint: ["/bin/sh", "-c", "chmod +x /app/entrypoint.sh && /app/entrypoint.sh"]
+
 
 volumes:
   my_db:
