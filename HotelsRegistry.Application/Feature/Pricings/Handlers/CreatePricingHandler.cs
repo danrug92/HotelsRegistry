@@ -10,10 +10,12 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
     {
         private readonly IPricingRepository _pricingRepo;
         private readonly IRoomTypeRepository _roomTypeRepo;
-        public CreatePricingHandler(IPricingRepository pricingRepo, IRoomTypeRepository roomTypeRepo)
+        private readonly IRoomHierarchyRepository _roomHierarchyRepo;
+        public CreatePricingHandler(IPricingRepository pricingRepo, IRoomTypeRepository roomTypeRepo, IRoomHierarchyRepository hierarchyRepo)
         {
             _pricingRepo = pricingRepo;
             _roomTypeRepo = roomTypeRepo;
+            _roomHierarchyRepo = hierarchyRepo;
         }
 
         public async Task<bool> Handle(CreatePricingCmd cmd, CancellationToken cancellationToken)
@@ -29,18 +31,28 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
             {
                 throw new Exception("End date cannot be earlier than start date.");
             }
-            try
+
+            var roomType = await _roomTypeRepo.GetByIdAsync(cmd.RoomTypeId);
+            if (roomType == null)
             {
-                if (!await _roomTypeRepo.ExistsAsync(cmd.RoomTypeId))
+                throw new ApplicationException("Room type does not exist");
+            }
+
+            var hierarchy = await _roomHierarchyRepo.GetByRelatedRoomTypeIdAsync(cmd.RoomTypeId);
+            if (hierarchy != null)
+            {
+                var basePricing = await _pricingRepo.GetLatestPricingAsync(hierarchy.RoomTypeBaseId);
+                if (basePricing != null)
                 {
-                    throw new ApplicationException("Room type don't exist");
+                    var minAllowedPrice = basePricing.Price * (1 + hierarchy.PercentageIncrease / 100);
+                    if (cmd.Price < minAllowedPrice)
+                    {
+                        throw new ApplicationException($"The price for this room type must be at least {minAllowedPrice} based on the hierarchy rules.");
+                    }
                 }
             }
-            catch
-            {
-                throw new ApplicationException("Problem with data context");
 
-            }
+
             try
             {
                 pricing.Id = Guid.NewGuid();

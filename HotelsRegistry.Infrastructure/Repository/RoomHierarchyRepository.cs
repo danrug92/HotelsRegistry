@@ -25,5 +25,10 @@ namespace HotelsRegistry.Infrastructure.Repository
          .AsNoTracking().Include(rh => rh.RoomTypeBase).Include(rh => rh.RoomTypeRelated)
          .FirstOrDefaultAsync(e => e.Id == Id);
         }
+        public async Task<RoomHierarchy?> GetByRelatedRoomTypeIdAsync(Guid roomTypeRelatedId)
+        {
+            return await _context.Set<RoomHierarchy>()
+                .FirstOrDefaultAsync(h => h.RoomTypeRelatedId == roomTypeRelatedId);
+        }
     }
 }

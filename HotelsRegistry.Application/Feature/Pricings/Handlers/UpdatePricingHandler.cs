@@ -9,10 +9,12 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
     public class UpdatePricingHandler : IRequestHandler<UpdatePricingCmd,bool>
     {
         private readonly IPricingRepository _pricingRepo;
+        private readonly IRoomHierarchyRepository _roomHierarchyRepo;
 
-        public UpdatePricingHandler(IPricingRepository pricingRepo)
+        public UpdatePricingHandler(IPricingRepository pricingRepo,IRoomHierarchyRepository roomHierarchyRepo)
         {
             _pricingRepo = pricingRepo;
+            _roomHierarchyRepo = roomHierarchyRepo;
         }
 
         public async Task<bool> Handle(UpdatePricingCmd cmd, CancellationToken cancellationToken)
@@ -40,6 +42,21 @@ namespace HotelsRegistry.Application.Feature.Pricings.Handlers
             {
                 throw new ApplicationException("End date cannot be earlier than start date.");
             }
+
+            var hierarchy = await _roomHierarchyRepo.GetByRelatedRoomTypeIdAsync(cmd.RoomTypeId);
+            if (hierarchy != null)
+            {
+                var basePricing = await _pricingRepo.GetLatestPricingAsync(hierarchy.RoomTypeBaseId);
+                if (basePricing != null)
+                {
+                    var minAllowedPrice = basePricing.Price * (1 + hierarchy.PercentageIncrease / 100);
+                    if (cmd.Price < minAllowedPrice)
+                    {
+                        throw new ApplicationException($"The price for this room type must be at least {minAllowedPrice} based on the hierarchy rules.");
+                    }
+                }
+            }
+
             try
             {
                 pricing.CreateAt = pricingsExist.CreateAt;

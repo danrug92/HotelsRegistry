@@ -24,5 +24,13 @@ namespace HotelsRegistry.Infrastructure.Repository
                  .AsNoTracking().Include(p => p.RoomType )
                  .FirstOrDefaultAsync(e => e.Id == Id);
         }
+        public async Task<Pricing?> GetLatestPricingAsync(Guid roomTypeId)
+        {
+            return await _context.Set<Pricing>()
+                .Where(p => p.RoomTypeId == roomTypeId)
+                .OrderByDescending(p => p.CreateAt)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }
