@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  hotelsDb:
+    image: mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+    environment:
+      SA_PASSWORD: "Hotel2025!@@2025Test"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - hotels_network
+    volumes:
+      - my_db:/var/opt/mssql
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Hotel2025!@@2025Test", "-Q", "SELECT 1"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: HotelsRegistry.API/Dockerfile
+    depends_on:
+      hotelsDb:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=hotelsDb;Database=HotelsRegistry;User Id=sa;Password=Hotel2025!@@2025Test
+    ports:
+      - "5001:80"
+    networks:
+      - hotels_network
+
+volumes:
+  my_db:
+    driver: local
+
+networks:
+  hotels_network:
+    driver: bridge
