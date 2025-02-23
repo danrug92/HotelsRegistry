@@ -7,5 +7,7 @@ namespace HotelsRegistry.Domain.AbstractRepository
     {
         IQueryable<RoomHierarchy> GetAllWithRoomTypeData();
         Task<RoomHierarchy?> GetHierarchyWithRoomTypeDataAsync(Guid Id);
+        Task<RoomHierarchy?> GetByRelatedRoomTypeIdAsync(Guid roomTypeRelatedId);
+
     }
 }
